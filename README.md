@@ -21,7 +21,8 @@ Des fichiers pourront être ajoutés pendant le hackathon : pensez à mettre vot
 | Dossier ou fichier | Contenu |
 |---|---|
 | `sujet/` | le sujet du hackathon (PDF) |
-| `cours/` | le cours du 25 septembre (PDF) : notions, règle de la cascade, protocole |
+| `cours/cours_25_septembre.pdf` | le cours du 25 septembre : notions, règle de la cascade, protocole |
+| `cours/symboles_mathematiques.pdf` | tous les symboles mathématiques du cours, expliqués sur des exemples chiffrés |
 | `donnees/banques.csv` | une ligne par banque : `reseau_id`, `banque_id`, `capital` |
 | `donnees/expositions.csv` | une ligne par dette : `reseau_id`, `debiteur_id`, `creancier_id`, `montant` |
 | `donnees/repartition.csv` | l'usage de chaque réseau : apprentissage, validation ou test |
@@ -51,7 +52,7 @@ Une ligne de `expositions.csv` avec `debiteur_id = i`, `creancier_id = j` et `mo
 
 ## 5. Par où commencer
 
-1. Lisez le sujet (`sujet/`) et gardez le cours (`cours/`) sous la main.
+1. Lisez le sujet (`sujet/`) et gardez sous la main le cours et le document des symboles (`cours/`) : un symbole vous échappe, sa fiche donne sa lecture, son sens et un exemple.
 2. Chargez les données :
 
    ```python
