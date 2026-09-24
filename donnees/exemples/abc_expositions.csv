@@ -1,0 +1,3 @@
+reseau_id,debiteur_id,creancier_id,montant
+ABC,A,B,10.00
+ABC,B,C,8.00

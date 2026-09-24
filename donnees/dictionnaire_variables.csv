@@ -1,0 +1,14 @@
+fichier,colonne,type,unite,description,contraintes
+banques.csv,reseau_id,texte,,identifiant du réseau (R01 à R12),12 réseaux indépendants
+banques.csv,banque_id,texte,,identifiant de la banque dans son réseau (B01 à B60),unique dans un réseau
+banques.csv,capital,réel,unité monétaire fictive,capital c_j = pertes absorbables,strictement positif ; 2 décimales
+expositions.csv,reseau_id,texte,,réseau de la dette,existe dans banques.csv
+expositions.csv,debiteur_id,texte,,banque i qui doit le montant (origine de l'arête i -> j),existe dans le même réseau
+expositions.csv,creancier_id,texte,,banque j à qui le montant est dû (extrémité de l'arête i -> j),existe dans le même réseau ; différente du débiteur
+expositions.csv,montant,réel,unité monétaire fictive,e_ij = montant que i doit à j,strictement positif ; 2 décimales ; pas de doublon de paire orientée
+repartition.csv,reseau_id,texte,,réseau,12 lignes
+repartition.csv,usage,texte,,ensemble du réseau,apprentissage (8) / validation (2) / test (2)
+tirages_aleatoires.csv,reseau_id,texte,,réseau,
+tirages_aleatoires.csv,graine,entier,,graine du tirage,0 à 9
+tirages_aleatoires.csv,ordre,entier,,rang de la banque dans le tirage,1 à 5
+tirages_aleatoires.csv,banque_id,texte,,banque tirée au sort (sans remise),"5 banques distinctes par (réseau, graine)"
