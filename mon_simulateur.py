@@ -10,8 +10,10 @@ Ne changez pas le nom des fonctions ni leurs arguments : les aides les appellent
 
 import os
 import sys
-
+from pathlib import Path
+import pandas as pd
 import networkx as nx
+
 
 # Rend le dossier aides/ importable, que ce fichier soit lancé ou importé depuis un notebook.
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "aides"))
@@ -29,7 +31,12 @@ def construire_graphe(banques_r, expositions_r):
       * une arête debiteur -> creancier par dette, avec l'attribut "montant"
         (la banque i doit le montant à la banque j : si i fait défaut, j perd).
     """
-    raise NotImplementedError("construire_graphe : à compléter par votre équipe")
+    G = nx.DiGraph()
+    for banque in banques_r.itertuples(index=False):
+      G.add_node(banque.banque_id, capital=banque.capital)
+    for exposition in expositions_r.itertuples(index=False):
+      G.add_edge(exposition.debiteur_id, exposition.creancier_id, montant=exposition.montant)
+    return G
 
 
 def simuler(G, origine, lam):
@@ -47,4 +54,41 @@ def simuler(G, origine, lam):
     Pour comparer une perte au capital, utilisez depasse_capital(perte, capital) :
     une perte exactement égale au capital ne provoque pas de défaut.
     """
-    raise NotImplementedError("simuler : à compléter par votre équipe")
+    defauts = {origine}
+    nouveaux_par_etape = []
+
+    while True:
+      pertes = {banque: 0.0 for banque in G.nodes if banque not in defauts}
+      for debiteur in defauts:
+        for creancier in G.successors(debiteur):
+          if creancier not in defauts:
+            pertes[creancier] += lam * G[debiteur][creancier]["montant"]
+
+      nouveaux = {
+        banque
+        for banque, perte in pertes.items()
+        if depasse_capital(perte, G.nodes[banque]["capital"])
+      }
+      if not nouveaux:
+        break
+      defauts.update(nouveaux)
+      nouveaux_par_etape.append(len(nouveaux))
+
+    return defauts, nouveaux_par_etape
+
+def data_loading():
+    """Load the data from CSV files."""
+    import pandas as pd
+    from pathlib import Path
+
+    ROOT = Path(__file__).parent
+    banques = pd.read_csv(ROOT / "donnees" / "banques.csv")
+    expositions = pd.read_csv(ROOT / "donnees" / "expositions.csv")
+    return banques, expositions
+
+
+
+if __name__ == "__main__":
+    banques, expositions = data_loading()
+
+        
