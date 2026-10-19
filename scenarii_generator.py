@@ -60,7 +60,7 @@ def create_scenarii(banques, expositions, filename="scenarii.pkl"):
                 orig_pression_med = float(np.log1p(lam * A[o].sum() / np.median(cap)) if np.median(cap) > 0 else 0.0)
                 orig_portee_max = float(portee(liens, o) / reseau_size)
                 
-                # --- Indicateurs enrichis (systématiques) ---
+                # --- Indicateurs enrichis ---
                 fortes = lam * A > cap[None, :]
                 orig_aretes_critiques = float(fortes[o].sum() / reseau_size)
                 orig_portee_critique = float(portee(fortes, o) / reseau_size)
@@ -91,9 +91,9 @@ def create_scenarii(banques, expositions, filename="scenarii.pkl"):
                     "orig_degre_entrant": orig_degre_entrant,
                     "orig_pression_med": orig_pression_med,
                     "orig_portee_max": orig_portee_max,
-                    # Features enrichies
-                    "orig_aretes_critiques": orig_aretes_critiques,
-                    "orig_portee_critique": orig_portee_critique,
+                    # Features enrichies (data-leak car elles usent de l'information de la cascade)
+                    #"orig_aretes_critiques": orig_aretes_critiques,
+                    #"orig_portee_critique": orig_portee_critique,
                     # Cible
                     "y_banqueroute_rate": float(banqueroute_rate)
                 }
